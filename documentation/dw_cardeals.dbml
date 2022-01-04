@@ -1,0 +1,200 @@
+Project dw_cardeals {
+    dbdatabase_type: 'MySQL'
+    Note: 'Car Deals Database'
+}
+
+Table DIM_Stand{
+    sk_stand int [pk,increment] [note: 'Surrogate key DIM_Stand.'] 
+    phone char(9) [not null][note: 'Stand Phone Number.'] 
+    address varchar(200) [not null] [note: 'Stand Address.'] 
+    postal_code varchar(10) [not null] [note: 'Stand Postal Code.'] 
+    city varchar(80) [not null] [note: 'Stand City.'] 
+    country varchar (80) [not null] [note: 'Stand Country.'] 
+    country_abb char(2) [not null] [note: 'Country Abbreviation.'] 
+    commercial_director_name varchar [not null] [note: 'Commercial Director Name.'] 
+    commercial_director_phone_1 char(9) [not null] [note: 'Commercial Director Phone Number 1.'] 
+    commercial_director_phone_2 char(9) [note: 'Commercial Director Phone Number 2. Can be null.'] 
+}
+
+Table DIM_Car{
+    sk_car [pk,increment] [note: 'Surrogate key DIM_Car.']
+     
+}
+
+
+
+
+
+
+
+
+Table DIM_day{
+  sk_day int [pk,increment]
+  full_date datetime
+  date_nam char(10) [note:'formato: yyyy/mm/dd']
+  day_of_the_week int
+  day_name_of_the_week varchar(14)
+  day_of_the_month int
+}
+
+enum hour_type_enum{
+  earlymorning
+  morning
+  noon
+  afternoon
+  night
+  midnight
+}
+
+Table DIM_hour{
+  sk_hour int [pk,increment]
+  hour_12h varchar(4) 
+  hour_24h int
+  hour_desc varchar(3) [note:'por exemplo: 12H']
+  hour_type hour_type_enum
+}
+
+Table DIM_staff{
+  sk_staff int [pk, increment]
+  first_name varchar(80)
+  last_name varchar(80)
+  email varchar(80)
+  active int [note:'0 or 1']
+  postal_code varchar(10)
+  district varchar(80)
+  city varchar(80)
+  country varchar (80)
+}
+
+Table DIM_customer{
+  sk_customer int [pk, increment]
+  first_name varchar(80)
+  last_name varchar(80)
+  email varchar(80)
+  active int [note:'0 or 1']
+  postal_code varchar(10)
+  district varchar(80)
+  city varchar(80)
+  country varchar (80)
+  creation_date date
+  numberof_rentals_last_quater int
+}
+
+Table DIM_store{
+  sk_store int [pk,increment]
+  name varchar(50)
+  address_part1 varchar(200)
+  address_part2 varchar(200)
+  manager_name varchar(120)
+  postal_code varchar(10)
+  district varchar(80)
+  city varchar(80)
+  country varchar (80)
+}
+enum length_category_enum{
+  short_duration [note:'short_duration: < 60 minutes']
+  normal_duration [note:'normal_duration: >= 60 and < 120 minutes']
+  long_duration [note:'long_duration > 120 minutes']
+}
+
+Table DIM_film{
+  sk_film int [pk,increment]
+  title varchar(80)
+  description varchar(800)
+  release_year int 
+  special_features varchar(500)
+  language varchar(25)
+  original_language varchar(25)
+  rental_rate double 
+  rental_duration int
+  length int [note:'in minutes']
+  length_category length_category_enum
+  main_category int
+  sub_category_1 int 
+  sub_category_2 int
+  group_actors_id int
+}
+
+Table DIM_actor_group{
+  group_actors_id int pk
+  description varchar(75)
+}
+Ref: DIM_actor_group.group_actors_id > DIM_film.group_actors_id
+
+Table bridge_actor{
+  group_actors_id int
+  actor_id int 
+  importancia int
+  observacoes varchar(255)
+  indexes{
+    (group_actors_id, actor_id) [pk]
+  }
+}
+Ref: bridge_actor.group_actors_id > DIM_actor_group.group_actors_id // many-to-one
+
+
+Table DIM_actor{
+  sk_actor int [pk,increment]
+  name varchar(80)
+}
+Ref: bridge_actor.actor_id > DIM_actor.sk_actor // many-to-one
+
+Table DIM_category{ // outrigger
+  sk_category int
+  name varchar(50)
+  note:'''Exemplo de bridge com um conjunto máximo de categorias. '''
+}
+
+Ref: DIM_film.main_category > DIM_category.sk_category
+Ref: DIM_film.sub_category_1 > DIM_category.sk_category
+Ref: DIM_film.sub_category_2 > DIM_category.sk_category
+
+Table FACT_rental{
+  sk_day int
+  sk_hour int
+  sk_store int
+  sk_staff int
+  sk_customer int
+  sk_film int
+  rental_code int pk [note:'Degenerate Dimension']
+  number_planned_rental_days int
+  rental_amount double
+}
+
+Ref: FACT_rental.sk_day > DIM_day.sk_day // many-to-one
+Ref: FACT_rental.sk_hour > DIM_hour.sk_hour // many-to-one
+Ref: FACT_rental.sk_store > DIM_store.sk_store // many-to-one
+Ref: FACT_rental.sk_staff > DIM_staff.sk_staff // many-to-one
+Ref: FACT_rental.sk_customer > DIM_customer.sk_customer // many-to-one
+Ref: FACT_rental.sk_film > DIM_film.sk_film // many-to-one
+
+Table FACT_return{
+  sk_day int
+  sk_hour int
+  sk_store int
+  sk_staff int
+  sk_customer int
+  sk_film int
+  rental_code int pk [note:'Degenerate Dimension']
+  flag_multa bit pk  [note:'Degenerate Dimension']
+  valor_multa double
+  numero_dias_atraso int
+  numero_dias_aluger int
+  total_pago double [note:'valor aluger +  valor multa']
+}
+
+Ref: FACT_return.sk_day > DIM_day.sk_day // many-to-one
+Ref: FACT_return.sk_hour > DIM_hour.sk_hour // many-to-one
+Ref: FACT_return.sk_store > DIM_store.sk_store // many-to-one
+Ref: FACT_return.sk_staff > DIM_staff.sk_staff // many-to-one
+Ref: FACT_return.sk_customer > DIM_customer.sk_customer // many-to-one
+Ref: FACT_return.sk_film > DIM_film.sk_film // many-to-one
+
+
+
+
+
+
+
+
+
