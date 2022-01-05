@@ -3,192 +3,133 @@ Project dw_cardeals {
     Note: 'Car Deals Database'
 }
 
+Table DIM_Car{
+    sk_car int [pk,increment,note: 'Surrogate key DIM_Car.']
+    variant varchar(150) [not null,note: 'Car variant.']
+    model varchar(150) [not null,note: 'Car model.']
+    brand varchar(100) [not null,note: 'Car make.']
+    torque varchar(8) [not null,note: 'Car torque in cc.']
+    power varchar(8) [not null,note: 'Car power in cv.']
+    type varchar (150) [not null,note: 'Car type.']
+    fuel varchar(80) [not null,note: 'Car fuel.']
+    seats int [not null,note: 'Car seat number.']
+    doors int [not null,note: 'Car door number.']
+    transmission varchar(80) [not null,note: 'Car transmission.']
+    color varchar(80) [not null,note: 'Car color.']
+    origin varchar(80) [not null,note: 'Car origin.']
+    supplier varchar(80) [not null,note: 'Car supplier.']
+    warranty char(3) [not null,note: 'Car warranty is "Sim" ou "Não".']
+    plate char(8) [not null,note: 'Car plate number.']
+    vin varchar(17) [note: 'Car vin number, it can be null.']
+    description varchar(500) [note: 'Car descripton or extra information.']
+}
+
 Table DIM_Stand{
-    sk_stand int [pk,increment] [note: 'Surrogate key DIM_Stand.'] 
-    phone char(9) [not null][note: 'Stand Phone Number.'] 
-    address varchar(200) [not null] [note: 'Stand Address.'] 
-    postal_code varchar(10) [not null] [note: 'Stand Postal Code.'] 
-    city varchar(80) [not null] [note: 'Stand City.'] 
-    country varchar (80) [not null] [note: 'Stand Country.'] 
-    country_abb char(2) [not null] [note: 'Country Abbreviation.'] 
-    commercial_director_name varchar [not null] [note: 'Commercial Director Name.'] 
-    commercial_director_phone_1 char(9) [not null] [note: 'Commercial Director Phone Number 1.'] 
+    sk_stand int [pk,increment,note: 'Surrogate key DIM_Stand.'] 
+    phone char(9) [not null,note: 'Stand Phone Number.'] 
+    address varchar(200) [not null,note: 'Stand Address.'] 
+    postal_code varchar(10) [not null,note: 'Stand Postal Code.'] 
+    city varchar(80) [not null,note: 'Stand City.'] 
+    country varchar (80) [not null,note: 'Stand Country.'] 
+    country_abb char(2) [not null,note: 'Country Abbreviation.'] 
+    commercial_director_name varchar [not null,note: 'Commercial Director Name.'] 
+    commercial_director_phone_1 char(9) [not null,note: 'Commercial Director Phone Number 1.'] 
     commercial_director_phone_2 char(9) [note: 'Commercial Director Phone Number 2. Can be null.'] 
 }
 
-Table DIM_Car{
-    sk_car [pk,increment] [note: 'Surrogate key DIM_Car.']
-     
+Table DIM_Page{
+    sk_page int [pk,increment,note: 'Surrogate key DIM_Page.']
+    title varchar(150) [note: 'Car deal page title.']
+    url varchar(150) [note: 'Car deal page url link.']
 }
 
-
-
-
-
-
-
-
-Table DIM_day{
-  sk_day int [pk,increment]
-  full_date datetime
-  date_nam char(10) [note:'formato: yyyy/mm/dd']
-  day_of_the_week int
-  day_name_of_the_week varchar(14)
-  day_of_the_month int
+Table DIM_Calendar{
+    sk_calendar int [pk,increment,note: 'Surrogate key DIM_Page.']
+    date_text date
+    datekey long 
+    day_number int
+    day int
+    day_of_year int
+    day_of_year_number int
+    day_of_week_english varchar(9)
+    day_of_week_portuguese varchar(13)
+    day_of_week_number int
+    week_of_year int
+    month_english varchar(9)
+    month_portuguese varchar(9)
+    short_month char(3)
+    quarter char(2)
+    half_of_year char(2)
+    beginning_of_month date
+    beginning_of_quarter date
+    beginning_of_half_year date
+    beginning_of_year date
+    beginning_of_month_label varchar(50)
+    beginning_of_month_label_short varchar(50)
+    beginning_of_quarter_label varchar(50)
+    beginning_of_quarter_label_short varchar(50)
+    beginning_of_half_year_label varchar(50)
+    beginning_of_half_year_label_short varchar(50)
+    beginning_of_year_label varchar(50)
+    beginning_of_year_label_short varchar(50)
+    calendar_day_label varchar(50)
+    calendar_day_label_short varchar(50)
+    calendar_week_number int
+    calendar_week_label varchar(50)
+    calendar_month_number int
+    calendar_month_label varchar(50)
+    calendar_month_year_label varchar(50)
+    calendar_quarter_number int
+    calendar_quarter_label varchar(12)
+    calendar_quarter_year_label  varchar(12)
+    calendar_half_of_year_number int
+    calendar_half_of_year_label char(9)
+    calendar_year_half_of_year_label char(7)
+    calendar_year int
+    calendar_year_label char(6)
+    fiscal_month_number int
+    fiscal_month_label char(9)
+    fiscal_quarter_number int
+    fiscal_quarter_label char(9)
+    fiscal_half_of_year_number int
+    fiscal_half_of_year_label char(9)
+    fiscal_year int
+    fiscal_year_label char(6)
+    date_key long
+    year_week_key int
+    year_month_key int
+    year_quarter_key int
+    year_half_of_year_key int
+    year_key int
+    beginning_of_month_key long
+    beginning_of_quarter_key long 
+    beginning_of_half_year_key long
+    beginning_of_year_key long
+    fiscal_year_month_key int
+    fiscal_year_quarter_key int
+    fiscal_year_half_of_year_key int
+    iso_week_number iny
+    portuguese_holiday_flag int
+    portuguese_holiday_name varchar(20)
+    portuguese_holiday_type varchar(20)
 }
 
-enum hour_type_enum{
-  earlymorning
-  morning
-  noon
-  afternoon
-  night
-  midnight
+Table FACT_CarDeals{
+  sk_car int
+  sk_stand int
+  sk_page int
+  sk_publication_day int
+  id int [pk,note:'Degenerate Dimension']
+  price int
+  mileage int
+  registry_year int
 }
 
-Table DIM_hour{
-  sk_hour int [pk,increment]
-  hour_12h varchar(4) 
-  hour_24h int
-  hour_desc varchar(3) [note:'por exemplo: 12H']
-  hour_type hour_type_enum
-}
+Ref:FACT_CarDeals.sk_car > DIM_Car.sk_car // many-to-one
+Ref:FACT_CarDeals.sk_stand > DIM_Stand.sk_stand // many-to-one
+Ref:FACT_CarDeals.sk_page > DIM_Page.sk_page // many-to-one
+Ref:FACT_CarDeals.sk_publication_day > DIM_Calendar.sk_calendar
 
-Table DIM_staff{
-  sk_staff int [pk, increment]
-  first_name varchar(80)
-  last_name varchar(80)
-  email varchar(80)
-  active int [note:'0 or 1']
-  postal_code varchar(10)
-  district varchar(80)
-  city varchar(80)
-  country varchar (80)
-}
-
-Table DIM_customer{
-  sk_customer int [pk, increment]
-  first_name varchar(80)
-  last_name varchar(80)
-  email varchar(80)
-  active int [note:'0 or 1']
-  postal_code varchar(10)
-  district varchar(80)
-  city varchar(80)
-  country varchar (80)
-  creation_date date
-  numberof_rentals_last_quater int
-}
-
-Table DIM_store{
-  sk_store int [pk,increment]
-  name varchar(50)
-  address_part1 varchar(200)
-  address_part2 varchar(200)
-  manager_name varchar(120)
-  postal_code varchar(10)
-  district varchar(80)
-  city varchar(80)
-  country varchar (80)
-}
-enum length_category_enum{
-  short_duration [note:'short_duration: < 60 minutes']
-  normal_duration [note:'normal_duration: >= 60 and < 120 minutes']
-  long_duration [note:'long_duration > 120 minutes']
-}
-
-Table DIM_film{
-  sk_film int [pk,increment]
-  title varchar(80)
-  description varchar(800)
-  release_year int 
-  special_features varchar(500)
-  language varchar(25)
-  original_language varchar(25)
-  rental_rate double 
-  rental_duration int
-  length int [note:'in minutes']
-  length_category length_category_enum
-  main_category int
-  sub_category_1 int 
-  sub_category_2 int
-  group_actors_id int
-}
-
-Table DIM_actor_group{
-  group_actors_id int pk
-  description varchar(75)
-}
-Ref: DIM_actor_group.group_actors_id > DIM_film.group_actors_id
-
-Table bridge_actor{
-  group_actors_id int
-  actor_id int 
-  importancia int
-  observacoes varchar(255)
-  indexes{
-    (group_actors_id, actor_id) [pk]
-  }
-}
-Ref: bridge_actor.group_actors_id > DIM_actor_group.group_actors_id // many-to-one
-
-
-Table DIM_actor{
-  sk_actor int [pk,increment]
-  name varchar(80)
-}
-Ref: bridge_actor.actor_id > DIM_actor.sk_actor // many-to-one
-
-Table DIM_category{ // outrigger
-  sk_category int
-  name varchar(50)
-  note:'''Exemplo de bridge com um conjunto máximo de categorias. '''
-}
-
-Ref: DIM_film.main_category > DIM_category.sk_category
-Ref: DIM_film.sub_category_1 > DIM_category.sk_category
-Ref: DIM_film.sub_category_2 > DIM_category.sk_category
-
-Table FACT_rental{
-  sk_day int
-  sk_hour int
-  sk_store int
-  sk_staff int
-  sk_customer int
-  sk_film int
-  rental_code int pk [note:'Degenerate Dimension']
-  number_planned_rental_days int
-  rental_amount double
-}
-
-Ref: FACT_rental.sk_day > DIM_day.sk_day // many-to-one
-Ref: FACT_rental.sk_hour > DIM_hour.sk_hour // many-to-one
-Ref: FACT_rental.sk_store > DIM_store.sk_store // many-to-one
-Ref: FACT_rental.sk_staff > DIM_staff.sk_staff // many-to-one
-Ref: FACT_rental.sk_customer > DIM_customer.sk_customer // many-to-one
-Ref: FACT_rental.sk_film > DIM_film.sk_film // many-to-one
-
-Table FACT_return{
-  sk_day int
-  sk_hour int
-  sk_store int
-  sk_staff int
-  sk_customer int
-  sk_film int
-  rental_code int pk [note:'Degenerate Dimension']
-  flag_multa bit pk  [note:'Degenerate Dimension']
-  valor_multa double
-  numero_dias_atraso int
-  numero_dias_aluger int
-  total_pago double [note:'valor aluger +  valor multa']
-}
-
-Ref: FACT_return.sk_day > DIM_day.sk_day // many-to-one
-Ref: FACT_return.sk_hour > DIM_hour.sk_hour // many-to-one
-Ref: FACT_return.sk_store > DIM_store.sk_store // many-to-one
-Ref: FACT_return.sk_staff > DIM_staff.sk_staff // many-to-one
-Ref: FACT_return.sk_customer > DIM_customer.sk_customer // many-to-one
-Ref: FACT_return.sk_film > DIM_film.sk_film // many-to-one
 
 
 
