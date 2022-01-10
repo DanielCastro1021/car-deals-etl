@@ -1,6 +1,6 @@
 Project dw_cardeals {
     dbdatabase_type: 'MySQL'
-    Note: 'Car Deals DataMart'
+    Note: 'Car Deals Data mart'
 }
 
 Table DIM_Car{
