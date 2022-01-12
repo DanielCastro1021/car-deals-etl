@@ -1,11 +1,10 @@
 Project dw_cardeals {
     dbdatabase_type: 'MySQL'
-    Note: 'Car Deals Data mart'
+    Note: 'Car Deals Data Mart Schema'
 }
 
 Table DIM_Car{
     sk_car int [pk,increment,note: 'Surrogate key DIM_Car.']
-    plate char(8) [not null,unique,note: 'Car plate number.']
     variant varchar(150) [not null,note: 'Car variant.']
     model varchar(150) [not null,note: 'Car model.']
     brand varchar(100) [not null,note: 'Car make.']
@@ -21,7 +20,6 @@ Table DIM_Car{
     supplier varchar(80) [not null,note: 'Car supplier.']
     warranty char(3) [not null,note: 'Car warranty is "Sim" ou "Não".']
     registration_date varchar(10) [not null,note: 'Car Date, in month/year']
-    vin varchar(17) [note: 'Car vin number, it can be null.']
     description varchar(500) [note: 'Car descripton or extra information.']
 }
 
@@ -72,3 +70,45 @@ Table FACT_Deals{
 Ref:FACT_Deals.sk_car > DIM_Car.sk_car // many-to-one
 Ref:FACT_Deals.sk_stand > DIM_Stand.sk_stand // many-to-one
 Ref:FACT_Deals.sk_publication_day > DIM_Calendar.sk_calendar // many-to-one
+
+
+Table AUDIT_Car{
+    sk_audit_car int [pk,increment]
+    sk_car int [note: 'Surrogate key DIM_Car.']
+    variant varchar(150) [not null,note: 'Car variant.']
+    model varchar(150) [not null,note: 'Car model.']
+    brand varchar(100) [not null,note: 'Car make.']
+    torque int [not null,note: 'Car torque in cc.']
+    power int(8) [not null,note: 'Car power in cv.']
+    type varchar (150) [not null,note: 'Car type.']
+    fuel varchar(80) [not null,note: 'Car fuel.']
+    seats int [not null,note: 'Car seat number.']
+    doors int [not null,note: 'Car door number.']
+    transmission varchar(80) [not null,note: 'Car transmission.']
+    color varchar(80) [not null,note: 'Car color.']
+    origin varchar(80) [not null,note: 'Car origin.']
+    supplier varchar(80) [not null,note: 'Car supplier.']
+    warranty char(3) [not null,note: 'Car warranty is "Sim" ou "Não".']
+    registration_date varchar(10) [not null,note: 'Car Date, in month/year']
+    description varchar(500) [note: 'Car descripton or extra information.']
+    date_operation date [note: 'Date of operation ']
+    operation char(1) [note: 'Operation is 'u' or 'i'']
+}
+
+Table AUDIT_Stand{
+    sk_audit_stand int [pk,increment]
+    sk_stand int [note: 'Surrogate key DIM_Stand.']
+    name varchar(80) [not null,note: 'Stand Name.'] 
+    phone char(9) [not null,note: 'Stand Phone Number.'] 
+    address varchar(200) [not null,note: 'Stand Address.'] 
+    postal_code char(8) [not null,note: 'Stand Postal Code.'] 
+    city varchar(80) [not null,note: 'Stand City.'] 
+    commercial_director_name varchar(80) [not null,note: 'Commercial Director Name.'] 
+    commercial_director_phone_1 char(9) [not null,note: 'Commercial Director Phone Number 1.'] 
+    commercial_director_phone_2 char(9) [note: 'Commercial Director Phone Number 2. Can be null.'] 
+    date_operation date [note: 'Date of operation ']
+    operation char(1) [note: 'Operation is 'u' or 'i'']
+}
+
+Ref:AUDIT_Car.sk_car > DIM_Car.sk_car // many-to-one
+Ref:AUDIT_Stand.sk_stand > DIM_Stand.sk_stand // many-to-one

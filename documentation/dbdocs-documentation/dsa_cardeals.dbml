@@ -1,14 +1,11 @@
 Project dsa_cardeals {
     dbdatabase_type: 'MySQL'
-    Note: 'Car Deals Data  '
+    Note: 'Car Deals Data Staging Area Schema'
 }
 
 Table Car{
     sk_car int [pk,increment]
     id int
-    price double
-    mileage int
-    plate char(8)
     variant varchar(150)
     model varchar(150) 
     brand varchar(100)
@@ -24,7 +21,6 @@ Table Car{
     supplier varchar(80) 
     warranty char(3) 
     registration_date varchar(10) 
-    vin varchar(17) 
     description varchar(500) 
 }
 
