@@ -1,14 +1,11 @@
 CREATE TABLE `Car` (
   `sk_car` int PRIMARY KEY AUTO_INCREMENT,
   `id` int,
-  `price` double,
-  `mileage` int,
-  `plate` char(8),
   `variant` varchar(150),
   `model` varchar(150),
   `brand` varchar(100),
-  `torque` int,
-  `power` int(8),
+  `torque` varchar(10),
+  `power` varchar(10),
   `type` varchar(150),
   `fuel` varchar(80),
   `seats` int,
@@ -19,14 +16,13 @@ CREATE TABLE `Car` (
   `supplier` varchar(80),
   `warranty` char(3),
   `registration_date` varchar(10),
-  `vin` varchar(17),
   `description` varchar(500)
 );
 
 CREATE TABLE `Deal` (
   `id` int PRIMARY KEY,
-  `price` double,
-  `mileage` int,
+  `price` varchar(80),
+  `mileage` varchar(80),
   `stand` varchar(80),
   `date_full` date
 );
@@ -39,8 +35,8 @@ CREATE TABLE `Stand` (
   `postal_code` char(8),
   `city` varchar(80),
   `commercial_director_name` varchar(80),
-  `commercial_director_phone_1` char(9),
-  `commercial_director_phone_2` char(9)
+  `commercial_director_phone_1` varchar(15),
+  `commercial_director_phone_2` varchar(15)
 );
 
 CREATE TABLE `Calendar` (

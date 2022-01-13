@@ -517,10 +517,12 @@
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
     <sql>DROP TABLE IF EXISTS FACT_Deals;
+DROP TABLE IF EXISTS AUDIT_Car;
+DROP TABLE IF EXISTS AUDIT_Stand;
+
 DROP TABLE IF EXISTS DIM_Calendar;
 DROP TABLE IF EXISTS DIM_Car;
 DROP TABLE IF EXISTS DIM_Stand;
-
 </sql>
     <set_params>N</set_params>
     <insert_field/>

@@ -516,18 +516,14 @@
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
-    <sql>
-CREATE TABLE IF NOT EXISTS `Car` (
+    <sql>CREATE TABLE `Car` (
   `sk_car` int PRIMARY KEY AUTO_INCREMENT,
   `id` int,
-  `price` double,
-  `mileage` int,
-  `plate` char(8),
   `variant` varchar(150),
   `model` varchar(150),
   `brand` varchar(100),
-  `torque` int,
-  `power` int(8),
+  `torque` varchar(10),
+  `power` varchar(10),
   `type` varchar(150),
   `fuel` varchar(80),
   `seats` int,
@@ -538,19 +534,18 @@ CREATE TABLE IF NOT EXISTS `Car` (
   `supplier` varchar(80),
   `warranty` char(3),
   `registration_date` varchar(10),
-  `vin` varchar(17),
   `description` varchar(500)
 );
 
-CREATE TABLE IF NOT EXISTS `Deal` (
+CREATE TABLE `Deal` (
   `id` int PRIMARY KEY,
-  `price` double,
-  `mileage` int,
+  `price` varchar(80),
+  `mileage` varchar(80),
   `stand` varchar(80),
   `date_full` date
 );
 
-CREATE TABLE IF NOT EXISTS `Stand` (
+CREATE TABLE `Stand` (
   `sk_stand` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(80),
   `phone` char(9),
@@ -558,11 +553,11 @@ CREATE TABLE IF NOT EXISTS `Stand` (
   `postal_code` char(8),
   `city` varchar(80),
   `commercial_director_name` varchar(80),
-  `commercial_director_phone_1`char(9),
-  `commercial_director_phone_2` char(9)
+  `commercial_director_phone_1` varchar(15),
+  `commercial_director_phone_2` varchar(15)
 );
 
-CREATE TABLE IF NOT EXISTS `Calendar` (
+CREATE TABLE `Calendar` (
   `sk_calendar` int UNIQUE PRIMARY KEY,
   `date_full` date,
   `day_number` int,
@@ -601,8 +596,8 @@ CREATE TABLE IF NOT EXISTS `Calendar` (
       </output>
     </remotesteps>
     <GUI>
-      <xloc>275</xloc>
-      <yloc>131</yloc>
+      <xloc>272</xloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

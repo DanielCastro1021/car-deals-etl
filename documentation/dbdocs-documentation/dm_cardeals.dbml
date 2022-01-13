@@ -91,8 +91,8 @@ Table AUDIT_Car{
     warranty char(3) [not null,note: 'Car warranty is "Sim" ou "Não".']
     registration_date varchar(10) [not null,note: 'Car Date, in month/year']
     description varchar(500) [note: 'Car descripton or extra information.']
-    date_operation date [note: 'Date of operation ']
-    operation char(1) [note: 'Operation is 'u' or 'i'']
+    date_operation date [note: 'Date of operation']
+    operation char(1) [note: 'Operation is "u" or "i"']
 }
 
 Table AUDIT_Stand{
@@ -107,7 +107,7 @@ Table AUDIT_Stand{
     commercial_director_phone_1 char(9) [not null,note: 'Commercial Director Phone Number 1.'] 
     commercial_director_phone_2 char(9) [note: 'Commercial Director Phone Number 2. Can be null.'] 
     date_operation date [note: 'Date of operation ']
-    operation char(1) [note: 'Operation is 'u' or 'i'']
+    operation char(1) [note: 'Operation is "u" or "i"']
 }
 
 Ref:AUDIT_Car.sk_car > DIM_Car.sk_car // many-to-one

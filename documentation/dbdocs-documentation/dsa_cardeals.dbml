@@ -9,8 +9,8 @@ Table Car{
     variant varchar(150)
     model varchar(150) 
     brand varchar(100)
-    torque int 
-    power int(8) 
+    torque varchar(10) 
+    power varchar(10) 
     type varchar (150)
     fuel varchar(80) 
     seats int 
@@ -27,8 +27,8 @@ Table Car{
 
 Table Deal{
     id int [pk]
-    price double
-    mileage int
+    price varchar(80)
+    mileage varchar(80)
     stand varchar(80) // stand search
     date_full date    // calendario search
 }
@@ -41,8 +41,8 @@ Table Stand{
     postal_code char(8) 
     city varchar(80)
     commercial_director_name varchar(80)
-    commercial_director_phone_1 char(9)
-    commercial_director_phone_2 char(9)
+    commercial_director_phone_1 varchar(15)
+    commercial_director_phone_2 varchar(15)
 }
 
 Table Calendar{

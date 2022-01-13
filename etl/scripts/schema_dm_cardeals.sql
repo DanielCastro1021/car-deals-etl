@@ -1,6 +1,5 @@
 CREATE TABLE `DIM_Car` (
   `sk_car` int PRIMARY KEY AUTO_INCREMENT COMMENT 'Surrogate key DIM_Car.',
-  `plate` char(8) UNIQUE NOT NULL COMMENT 'Car plate number.',
   `variant` varchar(150) NOT NULL COMMENT 'Car variant.',
   `model` varchar(150) NOT NULL COMMENT 'Car model.',
   `brand` varchar(100) NOT NULL COMMENT 'Car make.',
@@ -16,7 +15,6 @@ CREATE TABLE `DIM_Car` (
   `supplier` varchar(80) NOT NULL COMMENT 'Car supplier.',
   `warranty` char(3) NOT NULL COMMENT 'Car warranty is "Sim" ou "Não".',
   `registration_date` varchar(10) NOT NULL COMMENT 'Car Date, in month/year',
-  `vin` varchar(17) COMMENT 'Car vin number, it can be null.',
   `description` varchar(500) COMMENT 'Car descripton or extra information.'
 );
 
@@ -64,8 +62,50 @@ CREATE TABLE `FACT_Deals` (
   `mileage` int
 );
 
+CREATE TABLE `AUDIT_Car` (
+  `sk_audit_car` int PRIMARY KEY AUTO_INCREMENT,
+  `sk_car` int COMMENT 'Surrogate key DIM_Car.',
+  `variant` varchar(150) NOT NULL COMMENT 'Car variant.',
+  `model` varchar(150) NOT NULL COMMENT 'Car model.',
+  `brand` varchar(100) NOT NULL COMMENT 'Car make.',
+  `torque` int NOT NULL COMMENT 'Car torque in cc.',
+  `power` int(8) NOT NULL COMMENT 'Car power in cv.',
+  `type` varchar(150) NOT NULL COMMENT 'Car type.',
+  `fuel` varchar(80) NOT NULL COMMENT 'Car fuel.',
+  `seats` int NOT NULL COMMENT 'Car seat number.',
+  `doors` int NOT NULL COMMENT 'Car door number.',
+  `transmission` varchar(80) NOT NULL COMMENT 'Car transmission.',
+  `color` varchar(80) NOT NULL COMMENT 'Car color.',
+  `origin` varchar(80) NOT NULL COMMENT 'Car origin.',
+  `supplier` varchar(80) NOT NULL COMMENT 'Car supplier.',
+  `warranty` char(3) NOT NULL COMMENT 'Car warranty is "Sim" ou "Não".',
+  `registration_date` varchar(10) NOT NULL COMMENT 'Car Date, in month/year',
+  `description` varchar(500) COMMENT 'Car descripton or extra information.',
+  `date_operation` date COMMENT 'Date of operation',
+  `operation` char(1) COMMENT 'Operation is "u" or "i"'
+);
+
+CREATE TABLE `AUDIT_Stand` (
+  `sk_audit_stand` int PRIMARY KEY AUTO_INCREMENT,
+  `sk_stand` int COMMENT 'Surrogate key DIM_Stand.',
+  `name` varchar(80) NOT NULL COMMENT 'Stand Name.',
+  `phone` char(9) NOT NULL COMMENT 'Stand Phone Number.',
+  `address` varchar(200) NOT NULL COMMENT 'Stand Address.',
+  `postal_code` char(8) NOT NULL COMMENT 'Stand Postal Code.',
+  `city` varchar(80) NOT NULL COMMENT 'Stand City.',
+  `commercial_director_name` varchar(80) NOT NULL COMMENT 'Commercial Director Name.',
+  `commercial_director_phone_1` char(9) NOT NULL COMMENT 'Commercial Director Phone Number 1.',
+  `commercial_director_phone_2` char(9) COMMENT 'Commercial Director Phone Number 2. Can be null.',
+  `date_operation` date COMMENT 'Date of operation ',
+  `operation` char(1) COMMENT 'Operation is "u" or "i"'
+);
+
 ALTER TABLE `FACT_Deals` ADD FOREIGN KEY (`sk_car`) REFERENCES `DIM_Car` (`sk_car`);
 
 ALTER TABLE `FACT_Deals` ADD FOREIGN KEY (`sk_stand`) REFERENCES `DIM_Stand` (`sk_stand`);
 
 ALTER TABLE `FACT_Deals` ADD FOREIGN KEY (`sk_publication_day`) REFERENCES `DIM_Calendar` (`sk_calendar`);
+
+ALTER TABLE `AUDIT_Car` ADD FOREIGN KEY (`sk_car`) REFERENCES `DIM_Car` (`sk_car`);
+
+ALTER TABLE `AUDIT_Stand` ADD FOREIGN KEY (`sk_stand`) REFERENCES `DIM_Stand` (`sk_stand`);
